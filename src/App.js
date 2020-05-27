@@ -1,26 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Route, withRouter } from "react-router-dom"; 
+import { Security, SecureRoute, LoginCallback } from "@okta/okta-react"
+
+import Navbar from "./components/layout/Navbar";
+import Home from "./components/pages/Home";
+import Staff from "./components/pages/Staff";
+import Login from "./components/auth/Login";
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onAuthRequired = this.onAuthRequired.bind(this);
+  }
+
+  onAuthRequired() {
+    this.props.history.push("/login")
+  }
+
+  render() {
+    return (
+      <Security issuer='https://dev-747894.okta.com/oauth2/default'
+                  clientId='0oab3stl0Y4dWagkl4x6'
+                  redirectUri={window.location.origin + '/implicit/callback'}
+                  onAuthRequired={this.onAuthRequired}
+                  pkce={true} >
+        <div className="App">
+          <Navbar />
+          <div className="container"> 
+            <Route path="/" exact={true} component={Home} />
+            <SecureRoute path="/staff" exact={true} component={Staff} />
+            <Route path='/login' render={() => <Login baseUrl='https://dev-747894.okta.com' />} />
+            <Route path='/implicit/callback' component={LoginCallback} />
+          </div>  
+        </div>
+      </Security>
+    );
+  }
 }
 
-export default App;
+export default withRouter(App);
