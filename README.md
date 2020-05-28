@@ -29,5 +29,5 @@ Create ``config.json`` file and add the following
 }
 ```
 
-- :zap: [Create-React-App]() - Scaffolding for react applications.
-- :globe_with_meridians: [Okta-React]() - Library to integrate okta into your project.
+- :zap: [Create-React-App](https://www.npmjs.com/package/create-react-app) - Scaffolding for react applications.
+- :globe_with_meridians: [Okta-React](https://www.npmjs.com/package/@okta/okta-react) - Library to integrate okta into your project.
