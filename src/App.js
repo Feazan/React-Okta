@@ -6,6 +6,7 @@ import Navbar from "./components/layout/Navbar";
 import Home from "./components/pages/Home";
 import Staff from "./components/pages/Staff";
 import Login from "./components/auth/Login";
+import config from "./config.json"
 
 import './App.css';
 
@@ -21,8 +22,8 @@ class App extends React.Component {
 
   render() {
     return (
-      <Security issuer='https://dev-747894.okta.com/oauth2/default'
-                  clientId='0oab3stl0Y4dWagkl4x6'
+      <Security issuer={ config.issuer_url + '/oauth2/default'}
+                  clientId={config.client_id}
                   redirectUri={window.location.origin + '/implicit/callback'}
                   onAuthRequired={this.onAuthRequired}
                   pkce={true} >
@@ -31,7 +32,7 @@ class App extends React.Component {
           <div className="container"> 
             <Route path="/" exact={true} component={Home} />
             <SecureRoute path="/staff" exact={true} component={Staff} />
-            <Route path='/login' render={() => <Login baseUrl='https://dev-747894.okta.com' />} />
+            <Route path='/login' render={() => <Login baseUrl={config.issuer_url} />} />
             <Route path='/implicit/callback' component={LoginCallback} />
           </div>  
         </div>
